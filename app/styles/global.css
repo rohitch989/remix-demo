@@ -1,0 +1,230 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+}
+
+ul {
+  list-style: none;
+}
+
+p {
+  margin: 10px 0;
+}
+
+.container {
+  width: 100%;
+  max-width: 80vw;
+  margin: auto;
+  padding: 0 30px;
+}
+
+.logo {
+  font-size: x-large;
+  text-transform: uppercase;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  background-color: #f4f4f4;
+  padding: 10px 30px;
+  text-transform: uppercase;
+}
+
+.navbar ul {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar li {
+  margin-left: 20px;
+}
+
+.navbar ul li a {
+  color: #000;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.navbar ul li a:hover {
+  color: #333;
+  border-bottom: 1px solid #333;
+}
+
+.btn {
+  display: inline-block;
+  background: #000;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 15px;
+  font-family: inherit;
+}
+
+.btn-reverse {
+  background: #fff;
+  color: #000;
+  border-color: #000;
+}
+
+.btn:focus {
+  outline: none;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn-block {
+  display: block;
+  width: 100%;
+}
+.btn-sucess {
+  background: green;
+  color: #fff;
+  border-color: green;
+}
+.btn-delete {
+  background: darkred;
+  color: #fff;
+  border-color: darkred;
+  font-size: 13px;
+  padding: 5px 10px;
+}
+.btn-secondary {
+  background-color: slategray;
+}
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.page-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.posts-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.posts-list li {
+  padding: 20px;
+  border: 1px #333 solid;
+  border-radius: 5px;
+}
+
+.posts-list li h3 {
+  margin-bottom: 5px;
+}
+
+.error {
+  color: darkred;
+}
+
+.grid-header {
+  text-transform: uppercase;
+  color: slategray;
+  border-radius: 5px;
+  align-items: stretch;
+  font-size: 20px;
+  border-bottom: 3px solid skyblue;
+}
+.user {
+  display: grid;
+  grid-template-columns: 6% 25% 10% 10% 10% 25% 14%;
+  /* border: 1px solid black; */
+}
+li {
+  word-wrap: break-word;
+}
+.user > .gender,
+.user > .age,
+.user > .id {
+  text-align: center;
+}
+.user-lists {
+  font-size: 15px;
+  display: grid;
+  grid-template-rows: 2fr;
+}
+.user:nth-child(even) {
+  background-color: #eee;
+}
+.user-lists > ul > li {
+  border: 1px solid lightgray;
+}
+.user-lists > ul:first-child > li {
+  border-top: 0px;
+}
+.form-group {
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  flex-wrap: wrap;
+  color: slategray;
+}
+.form-control {
+  display: flex;
+  flex-direction: column;
+}
+.form-control > input {
+  border-radius: 5px;
+  border: 1px solid slategrey;
+  text-align: center;
+  font-size: 18px;
+  color: slategray;
+}
+.btns {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+.form {
+  padding-bottom: 2rem;
+  margin-bottom: 3rem;
+  border-bottom: 2px solid slategray;
+  border-radius: 5px;
+  word-wrap: break-word;
+}
+
+.text-red-600 {
+  color: red;
+}
+
+.text-center {
+  width: 100%;
+  text-align: center;
+}
+.text-success {
+  color: lightgreen;
+  font-size: 2rem;
+}
