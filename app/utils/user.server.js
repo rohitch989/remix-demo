@@ -1,4 +1,3 @@
-import { fetch } from "@remix-run/node";
 export const users = [
   {
     id: 1,
@@ -393,5 +392,6 @@ export const addUser = (user) => {
 
 export const search = async (obj) => {
   const res = await users.filter((u) => u[obj.key] === obj.value);
+
   return res;
 };

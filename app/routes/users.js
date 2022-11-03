@@ -3,10 +3,12 @@ import {
   useActionData,
   useTransition,
   useLoaderData,
+  useSubmit,
 } from "@remix-run/react";
 import { json } from "@remix-run/node";
-import { useEffect, useRef, useState } from "react";
-import { addUser, search, fetchUser } from "~/utils/user.server";
+import { useEffect, useRef } from "react";
+import { fetchUser } from "~/utils/user.server";
+import { add_User_Action, search_User_Action } from "~/utils/mockFn";
 import RemixInput from "~/component/common/RemixInput";
 import List from "~/component/common/List";
 import UList from "~/component/common/UList";
@@ -17,72 +19,25 @@ let userList;
 export const action = async ({ request }) => {
   const form = await request.formData();
   const { _action, ...data } = Object.fromEntries(form);
-  const actionData = {};
+  let actionData = {};
 
-  const {
-    firstName = null,
-    lastName = null,
-    username = null,
-    maidenName = "",
-    email = null,
-    age = null,
-    phone = null,
-    birthDate = null,
-  } = data;
-  if (_action === "add") {
-    const errors = {
-      firstName: firstName ? null : "First Name is required",
-      lastName: lastName ? null : "Last Name is required",
-      username: username ? null : "username is required",
-      age: age ? null : "age is required",
-      phone: phone ? null : "phone is required",
-      email: email ? null : "email is required",
-      birthDate: birthDate ? null : "birthDate is required",
-    };
-    const hasErrors = Object.values(errors).some(
-      (errorMessage) => errorMessage
-    );
-    if (hasErrors) {
-      actionData["errors"] = errors;
-    } else {
-      const user = {
-        firstName,
-        maidenName,
-        lastName,
-        email,
-        phone,
-        birthDate,
-        age,
-      };
-      const res = addUser(user);
-      actionData["success"] = res;
-    }
-  } else {
-    let key, value;
-    const keys = Object.keys(data);
-    const values = Object.values(data);
+  switch (_action) {
+    case 'add':
+      actionData = await add_User_Action(data)
+      break;
+    case 'search':
+      actionData = await search_User_Action(data)
+      break;
 
-    for (let i = 0; i < values.length; i++) {
-      if (values[i]) {
-        key = keys[i];
-        value = values[i];
-        break;
-      }
-    }
-    if (key && value) {
-      const searchUser = await search({ key, value });
-      userList = searchUser;
-      actionData["users"] = searchUser;
-    } else {
-      const errors = { default: "Please provide an input" };
-      actionData["errors"] = errors;
-    }
+    default:
+      actionData = {}
+      break;
   }
 
   return json(actionData);
 };
 
-export const loader = async ({ request }) => {
+export const loader = async () => {
   let users = await fetchUser();
   userList = users;
   return { users: userList };
@@ -92,20 +47,22 @@ const Users = () => {
   const actionData = useActionData();
   const { users } = useLoaderData();
   const transition = useTransition();
-  console.log(transition);
+  const searchUser = actionData?.users;
+  const submit = useSubmit()
   const errors = actionData?.errors ? actionData.errors : null;
-  if (actionData?.users)
-    setTimeout(() => {
-      actionData["users"] = undefined;
-    }, 5000);
   const isSearching =
     transition.state === "submitting" &&
     transition.submission.formData.get("_action") === "search";
   let formRef = useRef();
+
   useEffect(() => {
     if (!isSearching) formRef.current.reset();
-  }, [isSearching]);
-
+    if (searchUser?.length > 0 || errors) {
+      setTimeout(() => {
+        submit({ '_action': "reset" }, { method: "post" })
+      }, 3000)
+    }
+  }, [isSearching, submit, searchUser?.length, errors]);
   return (
     <>
       <div className="page-header">
@@ -138,7 +95,11 @@ const Users = () => {
             type="text"
             errors={errors?.username}
           />
-          <RemixInput id="age" name="age" type="text" errors={errors?.age} />
+          <RemixInput id="age" name="age" type="number" errors={errors?.age} />
+          <RemixInput id="gender" name="gender" type="dropdown" errors={errors?.gender} value={['select', 'male', 'female']} />
+
+
+          {/* <RemixInput id="gender" name="gender" type="text" errors={errors?.gender} /> */}
           <RemixInput
             id="email"
             name="email"
@@ -167,13 +128,13 @@ const Users = () => {
           <div>
             <button name="_action" className="btn btn-secondary" value="search">
               {transition.state === "submitting" &&
-              transition.submission.formData.get("_action") === "search"
+                transition.submission.formData.get("_action") === "search"
                 ? "Searching"
                 : "Search"}
             </button>
             <button name="_action" className="btn btn-sucess" value="add">
               {transition.state === "submitting" &&
-              transition.submission.formData.get("_action") === "add"
+                transition.submission.formData.get("_action") === "add"
                 ? "Adding"
                 : "Add"}
             </button>
@@ -201,7 +162,7 @@ const Users = () => {
             <UserList
               className="user-lists"
               users={users}
-              searchUser={actionData?.users}
+              searchUser={searchUser}
             />
           )}
         </div>

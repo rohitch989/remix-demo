@@ -1,19 +1,25 @@
-import { Outlet, LiveReload, Link, Links, Meta,NavLink } from '@remix-run/react'
-import globalStylesUrl from '~/styles/global.css'
+import {
+  Outlet,
+  LiveReload,
+  Links,
+  Meta,
+  NavLink,
+  Scripts,
+  ScrollRestoration,
+} from '@remix-run/react';
+import globalStylesUrl from '~/styles/global.css';
 
-export const links = () => [{ rel: 'stylesheet', href: globalStylesUrl }]
+export const links = () => [{ rel: 'stylesheet', href: globalStylesUrl }];
 
 export const meta = () => {
-  const description = 'A cool blog built with Remix'
-  const keywords = 'remix, react, javascript'
+  const description = 'A cool blog built with Remix';
+  const keywords = 'remix, react, javascript';
 
   return {
     description,
     keywords,
-  }
-}
-
-
+  };
+};
 
 export default function App() {
   return (
@@ -22,7 +28,7 @@ export default function App() {
         <Outlet />
       </Layout>
     </Document>
-  )
+  );
 }
 
 function Document({ children, title }) {
@@ -37,37 +43,44 @@ function Document({ children, title }) {
       </head>
       <body>
         {children}
+        <ScrollRestoration />
+        <Scripts />
         {process.env.NODE_ENV === 'development' ? <LiveReload /> : null}
       </body>
     </html>
-  )
+  );
 }
 
 function Layout({ children }) {
   const activeStyle = {
-    color: "blue",
+    color: 'blue',
   };
   return (
     <>
       <nav className='navbar'>
-        <NavLink to='/' style={({ isActive }) =>
-              isActive ? activeStyle : undefined} className='logo'>
+        <NavLink
+          to='/'
+          style={({ isActive }) => (isActive ? activeStyle : undefined)}
+          className='logo'
+        >
           Remix
         </NavLink>
 
         <ul className='nav'>
           <li>
-            <NavLink  style={({ isActive }) =>
-              isActive ? activeStyle : undefined
-            } to='/users'>Users</NavLink>
+            <NavLink
+              style={({ isActive }) => (isActive ? activeStyle : undefined)}
+              to='/users'
+            >
+              Users
+            </NavLink>
           </li>
-
         </ul>
       </nav>
 
       <div className='container'>{children}</div>
     </>
-  )
+  );
 }
 
 export function ErrorBoundary({ error }) {
@@ -78,5 +91,5 @@ export function ErrorBoundary({ error }) {
         <p>{error.message}</p>
       </Layout>
     </Document>
-  )
+  );
 }
