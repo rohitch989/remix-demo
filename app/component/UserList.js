@@ -4,11 +4,11 @@ function UserList({ className, users, searchUser }) {
     <div className={className}>
       {searchUser && searchUser.length > 0
         ? searchUser.map((user, index) => (
-          <UList className="user" user={user} key={user.id} />
+          <UList className="user" user={user} key={index} id={index} />
         ))
-        : users.map((user, index) => (
-          <UList className="user" user={user} key={user.id} />
-        ))}
+        : users ? users.map((user, index) => (
+          <UList className="user" user={user} key={index} id={index} />
+        )) : null}
     </div>
   );
 }

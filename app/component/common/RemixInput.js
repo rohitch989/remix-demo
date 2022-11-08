@@ -3,7 +3,7 @@ function RemixInput({ errors, id, name, type, value }) {
     <div className="form-control">
       <label htmlFor={id}>Gender:</label>
       <select id={id} name={name}>
-        {value.map((v, index) => <option value={v} key={index}>{v.toUpperCase()}</option>)}
+        {value.map((v, index) => <option value={v} key={index} hidden={!v}>{v ? v.toUpperCase() : "Select"}</option>)}
       </select>
       {errors?.gender ? <em className="text-red-600">{errors.gender}</em> : null}
     </div> :
